@@ -2,3 +2,5 @@
 ///
 /// [`clap`]: https://github.com/clap-rs/clap/
 pub mod config;
+/// Contains the API for url-wrapper
+pub mod http;
