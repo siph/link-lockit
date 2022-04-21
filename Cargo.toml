@@ -4,33 +4,21 @@ version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[workspace]
+members = [".", "entity", "migration"]
 
 [dependencies]
-# Core dependencies: runtime, HTTP framework and database client.
-futures = "0.3"
-tokio = { version = "1.14.0", features = ["macros", "rt-multi-thread"] }
-axum = { version = "0.5", features = ["tower-log"] }
-sqlx = { version = "0.5", features = ["runtime-tokio-native-tls", "postgres", "uuid", "time"] }
-
-# The `clap` beta gives us a much nicer way to define configuration parameters for our application.
 clap = { version = "3.1", features = ["derive", "env"]}
-
-serde = { version = "1.0.130", features = ["derive"] }
-
-# Axum builds on the types in Tower
+tokio = { version = "1.14", features = ["full"] }
+axum = { version = "0.4.2" }
 tower = "0.4.11"
-tower-http = { version = "0.2.0", features = ["trace"] }
-
-time = "0.2"
-
-uuid = { version = "0.8", features = ["serde"] }
-
-# Utility Crates
-anyhow = "1.0.48"
-async-trait = "0.1.51"
-dotenv = "0.15.0"
-env_logger = "0.9.0"
-itertools = "0.10.1"
-log = "0.4.14"
-rand = "0.8.4"
-thiserror = "1.0.30"
+tower-http = { version = "0.2", features = ["fs"] }
+tower-cookies = { version = "0.4" }
+anyhow = "1"
+dotenv = "0.15"
+serde = "1"
+serde_json = "1"
+tera = "1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+entity = { path = "entity" }
+migration = { path = "migration" }

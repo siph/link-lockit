@@ -1,2 +1,0 @@
-mod links;
-mod types;
