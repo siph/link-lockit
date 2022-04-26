@@ -14,10 +14,18 @@
 /// See `.env.sample` in the repository root for details.
 #[derive(clap::Parser)]
 pub struct Config {
-    /// The connection URL for the Postgres database this application should use.
+    /// The connection URL for the Postgres database this application should use
     #[clap(long, env)]
     pub database_url: String,
+
+    /// The ip address of the server
+    #[clap(long, env)]
+    pub ip: String,
     
+    /// The port of the server
+    #[clap(long, env)]
+    pub port: String,
+
     /// The api key distributed by exe.io
     #[clap(long, env)]
     pub exe_io_api_key: String,
