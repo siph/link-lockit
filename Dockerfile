@@ -1,4 +1,4 @@
-FROM rust:1.60 AS builder
+FROM clux/muslrust AS builder
 WORKDIR /volume
 COPY . .
 RUN cargo test
