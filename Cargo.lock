@@ -2521,26 +2521,20 @@ name = "url-wrapper"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "async-trait",
  "axum",
  "clap 3.1.12",
  "dotenv",
  "entity",
  "env_logger",
- "futures",
- "itertools",
  "log",
  "migration",
- "rand",
  "sea-orm",
  "serde",
  "serde_json",
- "thiserror",
  "tokio",
  "tower",
  "tower-cookies",
  "tower-http 0.2.5",
- "tracing-subscriber",
 ]
 
 [[package]]

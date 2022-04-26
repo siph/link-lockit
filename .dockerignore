@@ -1,0 +1,4 @@
+target/
+migration/target/
+entity/target/
+.git
