@@ -1,7 +1,14 @@
 use std::net::SocketAddr;
 use std::str::FromStr;
 
-use axum::{Router, AddExtensionLayer, Server};
+use axum::{
+    routing::{
+        get,
+    },
+    Router, 
+    AddExtensionLayer, 
+    Server,
+};
 use tower::ServiceBuilder;
 use url_wrapper::config::Config;
 use clap::Parser;
@@ -18,7 +25,7 @@ async fn main() -> anyhow::Result<()> {
         .expect("Database connection failed");
     Migrator::up(&conn, None).await.unwrap();
     let app = Router::new()
-        // .route("/delete/:id", post(delete_post))
+        .route("/hello", get(hello))
         .layer(
             ServiceBuilder::new()
                 .layer(AddExtensionLayer::new(conn))
@@ -29,4 +36,8 @@ async fn main() -> anyhow::Result<()> {
         .serve(app.into_make_service())
         .await?;
     Ok(())
+}
+
+async fn hello() -> String{
+    String::from("hello")
 }
