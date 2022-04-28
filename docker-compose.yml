@@ -1,0 +1,35 @@
+
+version: "3.3"
+services:
+  web:
+    build: .
+    ports:
+      - "8081:8080"
+    depends_on:
+      - database
+    volumes:
+      - /tmp:/tmp
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - IP=${IP}
+      - PORT=${PORT}
+      - EXE_IO_API_KEY=${EXE_IO_API_KEY}
+  database:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DATASOURCE_USERNAME}
+      - POSTGRES_PASSWORD=${DATASOURCE_PASSWORD}
+      - POSTGRES_DB=${DATASOURCE_DATABASE}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATASOURCE_USERNAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    driver: local
