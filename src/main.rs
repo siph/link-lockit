@@ -6,8 +6,10 @@ use axum::{
         get,
     },
     Router, 
-    AddExtensionLayer, 
     Server,
+    extract::{
+        Extension,
+    }
 };
 use tower::ServiceBuilder;
 use url_wrapper::config::Config;
@@ -28,7 +30,7 @@ async fn main() -> anyhow::Result<()> {
         .route("/hello", get(hello))
         .layer(
             ServiceBuilder::new()
-                .layer(AddExtensionLayer::new(conn))
+                .layer(Extension(conn))
         );
     let server_url = format!("{}:{}", &config.ip, &config.port);
     let addr = SocketAddr::from_str(&server_url).unwrap();
