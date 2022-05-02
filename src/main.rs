@@ -1,5 +1,8 @@
 use std::net::SocketAddr;
 use std::str::FromStr;
+use entity::links;
+use links::Entity as link_entity;
+use sea_orm::{DatabaseConnection, ActiveValue::NotSet, Set, ActiveModelTrait, EntityTrait};
 
 use axum::{
     routing::{
@@ -11,6 +14,7 @@ use axum::{
         Extension,
     }
 };
+use serde_json::json;
 use tower::ServiceBuilder;
 use url_wrapper::config::Config;
 use clap::Parser;
@@ -28,6 +32,7 @@ async fn main() -> anyhow::Result<()> {
     Migrator::up(&conn, None).await.unwrap();
     let app = Router::new()
         .route("/hello", get(hello))
+        .route("/json", get(get_json))
         .layer(
             ServiceBuilder::new()
                 .layer(Extension(conn))
@@ -40,6 +45,32 @@ async fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn hello() -> String{
-    String::from("hello")
+async fn hello(
+    Extension(ref conn): Extension<DatabaseConnection>,
+) -> String {
+    let link = links::ActiveModel {
+        links_id: NotSet,
+        original: Set("original".to_owned()),
+        short: Set("short".to_owned()),
+        description: Set("".to_owned()),
+    };
+    let link = link
+        .save(conn)
+        .await;
+    link.is_ok().to_string()
 }
+
+async fn get_json(
+    Extension(ref conn): Extension<DatabaseConnection>,
+) -> axum::response::Json<entity::links::Model>{
+    let link: links::Model = link_entity::find()
+        .one(conn)
+        .await
+        .unwrap()
+        .unwrap();
+    axum::Json(link)
+}
+
+
+
+

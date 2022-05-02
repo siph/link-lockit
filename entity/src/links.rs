@@ -10,7 +10,7 @@ pub struct Model {
     pub original: String,
     pub short: String,
     #[sea_orm(column_type = "Text")]
-    pub description: Option<String>,
+    pub description: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter)]
