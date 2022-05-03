@@ -2,3 +2,5 @@
 ///
 /// [`clap`]: https://github.com/clap-rs/clap/
 pub mod config;
+
+pub mod http;
