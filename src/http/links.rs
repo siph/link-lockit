@@ -57,7 +57,7 @@ pub fn router() -> Router {
 async fn get_links(
     Extension(ref conn): Extension<DatabaseConnection>,
     pagination: Query<Pagination>,
-    ) -> axum::response::Json<Vec<entity::links::Model>> {
+) -> axum::response::Json<Vec<entity::links::Model>> {
     let links: Vec<entity::links::Model> = links_entity::find()
         .order_by_asc(links::Column::LinksId)
         .paginate(conn, pagination.0.page_size)
@@ -70,35 +70,28 @@ async fn get_links(
 async fn process(
     Extension(ref conn): Extension<DatabaseConnection>,
     request_parameters: Query<ProcessRequestParameters >,
-) -> impl IntoResponse {
+) -> axum::response::Json<links::Model> {
     let api_key = request_parameters.0.api_key;
     let url = request_parameters.0.url;
-    let response: Result<ExeIoResponse> = get_response(&api_key, &url)
-        .await;
-    match response {
-        // TODO: figure out how to return the response without axum stopping me at every possible opportunity
-        Ok(response) => {
-            // TODO: figure out how to pass database connection so I can abstract this horse shit
-            // ---
-            let link = links::ActiveModel {
-                links_id: NotSet,
-                original: Set(url),
-                short: Set(response.shortened_url),
-                description: Set(Utc::now().to_rfc3339()),
-            };
-            link.save(conn).await.unwrap();
-            // ---
-            Response::builder()
-                .status(StatusCode::OK)
-                .body(Full::from("ok"))
-                .unwrap()
-        },
-        Err(_) => {
-            Response::builder()
-                .status(StatusCode::INTERNAL_SERVER_ERROR)
-                .body(Full::from("error"))
-                .unwrap()
-        },
+    let response: ExeIoResponse = get_response(&api_key, &url)
+        .await
+        .unwrap();
+    let link = links::ActiveModel {
+        links_id: NotSet,
+        original: Set(url),
+        short: Set(response.shortened_url.clone()),
+        description: Set(Utc::now().to_rfc3339()),
+    };
+    let link = link.save(conn).await.unwrap();
+    axum::Json(get_model(link).await)
+}
+
+async fn get_model(active_model: links::ActiveModel) -> links::Model {
+    links::Model {
+        links_id: active_model.links_id.unwrap(),
+        short: active_model.short.unwrap(),
+        original: active_model.original.unwrap(),
+        description: active_model.description.unwrap(),
     }
 }
 
