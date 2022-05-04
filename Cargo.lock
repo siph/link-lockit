@@ -249,7 +249,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f4af7447fc1214c1f3a1ace861d0216a6c8bb13965b64bbad9650f375b67689a"
 dependencies = [
  "async-trait",
- "axum-core 0.2.4",
+ "axum-core",
  "bitflags",
  "bytes",
  "futures-util",
@@ -271,20 +271,6 @@ dependencies = [
  "tower-http 0.3.2",
  "tower-layer",
  "tower-service",
-]
-
-[[package]]
-name = "axum-core"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6dbcda393bef9c87572779cb8ef916f12d77750b27535dd6819fa86591627a51"
-dependencies = [
- "async-trait",
- "bytes",
- "futures-util",
- "http",
- "http-body",
- "mime",
 ]
 
 [[package]]
@@ -473,17 +459,6 @@ name = "const_fn"
 version = "0.4.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fbdcdcb6d86f71c5e97409ad45898af11cbc995b4ee8112d59095a28d376c935"
-
-[[package]]
-name = "cookie"
-version = "0.15.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5f1c7727e460397e56abc4bddc1d49e07a1ad78fc98eb2e1c8f032a58a2f80d"
-dependencies = [
- "percent-encoding",
- "time 0.2.27",
- "version_check",
-]
 
 [[package]]
 name = "core-foundation"
@@ -1884,9 +1859,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.80"
+version = "1.0.81"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f972498cf015f7c0746cac89ebe1d6ef10c293b94175a243a2d9442c163d9944"
+checksum = "9b7ce2b32a1aed03c558dc61a5cd328f15aff2dbc17daad8fb8af04d2100e15c"
 dependencies = [
  "itoa",
  "ryu",
@@ -2412,23 +2387,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tower-cookies"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ba3a3bb9d1cd688ddad31f5649f1fba3a512234997b0f7c87422ec80df4d6945"
-dependencies = [
- "async-trait",
- "axum-core 0.1.2",
- "cookie",
- "futures-util",
- "http",
- "parking_lot 0.11.2",
- "pin-project-lite",
- "tower-layer",
- "tower-service",
-]
-
-[[package]]
 name = "tower-http"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2624,6 +2582,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "axum",
+ "chrono",
  "clap 3.1.15",
  "dotenv",
  "entity",
@@ -2636,7 +2595,6 @@ dependencies = [
  "serde_json",
  "tokio",
  "tower",
- "tower-cookies",
  "tower-http 0.2.5",
  "urlencoding",
 ]

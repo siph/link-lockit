@@ -3,7 +3,6 @@ use std::str::FromStr;
 use entity::links;
 use links::Entity as link_entity;
 use sea_orm::{DatabaseConnection, ActiveValue::NotSet, Set, ActiveModelTrait, EntityTrait};
-
 use axum::{
     routing::{
         get,
@@ -14,7 +13,6 @@ use axum::{
         Extension,
     }
 };
-use serde_json::json;
 use tower::ServiceBuilder;
 use url_wrapper::config::Config;
 use clap::Parser;
