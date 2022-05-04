@@ -1,17 +1,8 @@
 use std::net::SocketAddr;
 use std::str::FromStr;
-use entity::links;
-use links::Entity as link_entity;
-use sea_orm::{DatabaseConnection, ActiveValue::NotSet, Set, ActiveModelTrait, EntityTrait};
 use axum::{
-    routing::{
-        get,
-    },
-    Router, 
     Server,
-    extract::{
-        Extension,
-    }
+    extract::Extension,
 };
 use tower::ServiceBuilder;
 use url_wrapper::config::Config;
@@ -28,9 +19,7 @@ async fn main() -> anyhow::Result<()> {
         .await
         .expect("Database connection failed");
     Migrator::up(&conn, None).await.unwrap();
-    let app = Router::new()
-        .route("/hello", get(hello))
-        .route("/json", get(get_json))
+    let app = url_wrapper::http::api_router()
         .layer(
             ServiceBuilder::new()
                 .layer(Extension(conn))
@@ -42,33 +31,4 @@ async fn main() -> anyhow::Result<()> {
         .await?;
     Ok(())
 }
-
-async fn hello(
-    Extension(ref conn): Extension<DatabaseConnection>,
-) -> String {
-    let link = links::ActiveModel {
-        links_id: NotSet,
-        original: Set("original".to_owned()),
-        short: Set("short".to_owned()),
-        description: Set("".to_owned()),
-    };
-    let link = link
-        .save(conn)
-        .await;
-    link.is_ok().to_string()
-}
-
-async fn get_json(
-    Extension(ref conn): Extension<DatabaseConnection>,
-) -> axum::response::Json<entity::links::Model>{
-    let link: links::Model = link_entity::find()
-        .one(conn)
-        .await
-        .unwrap()
-        .unwrap();
-    axum::Json(link)
-}
-
-
-
 
