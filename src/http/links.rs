@@ -9,9 +9,15 @@ use sea_orm::{
     ActiveValue::NotSet, 
     Set, 
     ActiveModelTrait, 
+    EntityTrait, 
+    QueryOrder, 
+    PaginatorTrait, 
 };
 use axum::{ 
-    routing::post,
+    routing::{ 
+        post, 
+        get,
+    },
     http::StatusCode,
     response::{
         IntoResponse,
@@ -31,19 +37,39 @@ use super::exe_io::{
 use chrono::offset::Utc;
 
 #[derive(Deserialize)]
-struct RequestParameters {
+struct ProcessRequestParameters {
     api_key: String,
     url: String,
+}
+
+#[derive(Deserialize)]
+struct Pagination {
+    target_page: usize, 
+    page_size: usize, 
 }
 
 pub fn router() -> Router {
     Router::new()
         .route("/api/process", post(process))
+        .route("/api/links", get(get_links))
+}
+
+async fn get_links(
+    Extension(ref conn): Extension<DatabaseConnection>,
+    pagination: Query<Pagination>,
+    ) -> axum::response::Json<Vec<entity::links::Model>> {
+    let links: Vec<entity::links::Model> = links_entity::find()
+        .order_by_asc(links::Column::LinksId)
+        .paginate(conn, pagination.0.page_size)
+        .fetch_page(pagination.0.target_page - 1)
+        .await
+        .unwrap_or(vec![]);
+    axum::Json(links)
 }
 
 async fn process(
     Extension(ref conn): Extension<DatabaseConnection>,
-    request_parameters: Query<RequestParameters>,
+    request_parameters: Query<ProcessRequestParameters >,
 ) -> impl IntoResponse {
     let api_key = request_parameters.0.api_key;
     let url = request_parameters.0.url;
