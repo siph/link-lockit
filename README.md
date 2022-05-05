@@ -4,4 +4,11 @@ Url-wrapper accepts and processes encoded urls through the external services of 
 
 # Deployment
 ## Docker
-The easiest way to deploy url-wrapper is to export the required environment variables and bring the application up through docker-compose.
+The easiest way to deploy url-wrapper is to have docker-compose installed and run the start script.
+```bash
+git clone 'https://gitlab.com/xsiph/url-wrapper.git'
+```
+```bash
+$ ./start.sh
+```
+By default the server can be reached though port 8081.
