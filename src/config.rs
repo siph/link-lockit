@@ -25,8 +25,4 @@ pub struct Config {
     /// The port of the server
     #[clap(long, env)]
     pub port: String,
-
-    /// The api key distributed by exe.io
-    #[clap(long, env)]
-    pub exe_io_api_key: String,
 }

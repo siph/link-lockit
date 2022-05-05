@@ -13,7 +13,6 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - IP=${IP}
       - PORT=${PORT}
-      - EXE_IO_API_KEY=${EXE_IO_API_KEY}
   database:
     image: postgres
     ports:
