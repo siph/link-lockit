@@ -1,5 +1,4 @@
 target/
 migration/target/
 entity/target/
-start.sh
 stop.sh
