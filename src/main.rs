@@ -3,6 +3,7 @@ use std::str::FromStr;
 use axum::{
     Server,
     extract::Extension,
+    Router,
 };
 use tower::ServiceBuilder;
 use url_wrapper::config::Config;
@@ -19,7 +20,9 @@ async fn main() -> anyhow::Result<()> {
         .await
         .expect("Database connection failed");
     Migrator::up(&conn, None).await.unwrap();
-    let app = url_wrapper::http::api_router()
+    let app = Router::new()
+        .merge(url_wrapper::http::api_router())
+        .merge(url_wrapper::doc::router())
         .layer(
             ServiceBuilder::new()
                 .layer(Extension(conn))

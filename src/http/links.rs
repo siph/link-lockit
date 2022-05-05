@@ -1,6 +1,7 @@
 use serde::Deserialize;
 use entity::links::{
     Entity as links_entity, 
+    Model as links_model,
     self,
 };
 use sea_orm::{
@@ -30,13 +31,13 @@ use super::exe_io::{
 use chrono::offset::Utc;
 
 #[derive(Deserialize)]
-struct ProcessRequestParameters {
+pub struct ProcessRequestParameters {
     api_key: String,
     url: String,
 }
 
 #[derive(Deserialize)]
-struct Pagination {
+pub struct Pagination {
     target_page: usize, 
     page_size: usize, 
 }
@@ -47,7 +48,18 @@ pub fn router() -> Router {
         .route("/api/links", get(get_links))
 }
 
-async fn get_links(
+#[utoipa::path(
+    get,
+    path = "/api/links",
+    responses(
+        (status = 200, description = "Retrieved links succesfully", body = links_model),
+        ),
+        params(
+            ("target_page" = usize, path, description = "Page number"),
+            ("page_size" = usize, path, description = "Number of links per page"),
+            ),
+    )]
+pub async fn get_links(
     Extension(ref conn): Extension<DatabaseConnection>,
     pagination: Query<Pagination>,
 ) -> axum::response::Json<Vec<entity::links::Model>> {
@@ -60,7 +72,18 @@ async fn get_links(
     axum::Json(links)
 }
 
-async fn process(
+#[utoipa::path(
+    post,
+    path = "/api/process",
+    responses(
+        (status = 200, description = "Processed link succesfully", body = links_model),
+        ),
+        params(
+            ("api_key" = String, path, description = "Api key provided by exe.io"),
+            ("url" = usize, path, description = "Encoded url to be processed"),
+            ),
+    )]
+pub async fn process(
     Extension(ref conn): Extension<DatabaseConnection>,
     request_parameters: Query<ProcessRequestParameters >,
 ) -> axum::response::Json<links::Model> {

@@ -3,4 +3,8 @@
 /// [`clap`]: https://github.com/clap-rs/clap/
 pub mod config;
 
+/// Contains the web server
 pub mod http;
+
+/// Contains Open Api 3 documentation
+pub mod doc;
