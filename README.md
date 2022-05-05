@@ -1,6 +1,14 @@
 # url-wrapper
 Url-wrapper is a functional web-application demo project built using the rust framework [Axum](https://github.com/tokio-rs/axum/).
-Url-wrapper accepts and processes encoded urls through the external services of [exe.io](exe.io) and stores them in a postgres database.
+Url-wrapper accepts and processes encoded urls through the external services of exe.io and stores them in a postgres database.   
+Some of the technologies demonstrated in url-wrapper: 
+- Web framework:                    [Axum](https://github.com/tokio-rs/axum/)
+- Database:                         [PostgreSQL](https://www.postgresql.org/)
+- Object mapping:                   [Sea-Orm](https://github.com/SeaQL/sea-orm)
+- Database schema management:       [Sea-Schema](https://github.com/SeaQL/sea-schema)
+- OpenAPI documentation generation: [Utoipa](https://github.com/juhaku/utoipa)
+- Swagger UI generation:            [Utoipa-Swagger-UI](https://docs.rs/utoipa-swagger-ui/latest/utoipa_swagger_ui/)
+
 
 # Deployment
 ## Docker
