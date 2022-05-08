@@ -1,7 +1,6 @@
 use serde::Deserialize;
 use entity::links::{
     Entity as links_entity, 
-    Model as links_model,
     self,
 };
 use sea_orm::{
@@ -17,10 +16,11 @@ use axum::{
     routing::{ 
         post, 
         get,
+        delete,
     },
     extract::{
         Query,
-        Extension,
+        Extension, Path,
     },
     Router, 
 };
@@ -46,6 +46,7 @@ pub fn router() -> Router {
     Router::new()
         .route("/api/process", post(process))
         .route("/api/links", get(get_links))
+        .route("/api/delete", delete(delete_link))
 }
 
 #[utoipa::path(
@@ -100,6 +101,24 @@ pub async fn process(
     };
     let link = link.save(conn).await.unwrap();
     axum::Json(get_model(link).await)
+}
+
+#[utoipa::path(
+    delete,
+    path = "/api/delete",
+    responses(
+        (status = 200, description = "Deleted link succesfully", body = links_model),
+        ),
+        params(
+            ("id" = String, path, description = "Target link id"),
+            ),
+    )]
+pub async fn delete_link(
+    Extension(ref conn): Extension<DatabaseConnection>,
+    Path(id): Path<i32>,
+) -> String {
+    let result = links_entity::delete_by_id(id).exec(conn).await;
+    result.is_ok().to_string()
 }
 
 async fn get_model(active_model: links::ActiveModel) -> links::Model {

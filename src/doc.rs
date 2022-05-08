@@ -1,4 +1,4 @@
-use utoipa::{ OpenApi, openapi };
+use utoipa::OpenApi;
 use entity::links::Model as links_model;
 use axum::{
     extract::Path,
@@ -17,6 +17,7 @@ use utoipa_swagger_ui::Config;
     handlers(
         crate::http::links::get_links,
         crate::http::links::process,
+        crate::http::links::delete_link,
     ),
     components(links_model),
     tags(
