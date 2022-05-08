@@ -20,5 +20,5 @@ git clone 'https://gitlab.com/xsiph/url-wrapper.git'
 $ ./start.sh
 ```
 By default the server can be reached though port 8081.   
-Swagger documentation can be found at 'https://localhost:8081/swagger-ui'
+Swagger documentation can be found at 'http://localhost:8081/swagger-ui'
 
