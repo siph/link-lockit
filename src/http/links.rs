@@ -92,7 +92,7 @@ pub async fn process(
     let url = request_parameters.0.url;
     let response: ExeIoResponse = get_response(&api_key, &url)
         .await
-        .unwrap();
+        .expect("Could not contact server");
     let link = links::ActiveModel {
         links_id: NotSet,
         original: Set(url),
