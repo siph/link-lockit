@@ -1,7 +1,7 @@
-# url-wrapper
-Url-wrapper is a functional web-application demo project built using the rust framework [Axum](https://github.com/tokio-rs/axum/).
-Url-wrapper accepts and processes encoded urls through the external services of exe.io and stores them in a postgres database.   
-Some of the technologies demonstrated in url-wrapper: 
+# link-locket
+Link-locket is a functional web-application demo project built using the rust framework [Axum](https://github.com/tokio-rs/axum/).
+Link-locket accepts and processes encoded urls through the external services of exe.io and stores them in a postgres database.   
+Some of the technologies demonstrated in url-wrapper:
 - Web framework:                    [Axum](https://github.com/tokio-rs/axum/)
 - Database:                         [PostgreSQL](https://www.postgresql.org/)
 - Object mapping:                   [Sea-Orm](https://github.com/SeaQL/sea-orm)
@@ -19,6 +19,6 @@ git clone 'https://gitlab.com/xsiph/url-wrapper.git'
 ```bash
 $ ./start.sh
 ```
-By default the server can be reached though port 8081.   
+By default the server can be reached though port 8081.
 Swagger documentation can be found at 'http://localhost:8081/swagger-ui'
 
