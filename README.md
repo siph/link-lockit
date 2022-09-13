@@ -1,7 +1,7 @@
-# link-locket
-Link-locket is a functional web-application demo project built using the rust framework [Axum](https://github.com/tokio-rs/axum/).
-Link-locket accepts and processes encoded urls through the external services of exe.io and stores them in a postgres database.   
-Some of the technologies demonstrated in url-wrapper:
+# link-lockit
+Link-lockit is a functional web-application demo project built using the rust framework [Axum](https://github.com/tokio-rs/axum/).
+Link-lockit accepts and processes encoded urls through the external services of exe.io and stores them in a postgres database.   
+Some of the technologies demonstrated in link-lockit:
 - Web framework:                    [Axum](https://github.com/tokio-rs/axum/)
 - Database:                         [PostgreSQL](https://www.postgresql.org/)
 - Object mapping:                   [Sea-Orm](https://github.com/SeaQL/sea-orm)
@@ -12,9 +12,9 @@ Some of the technologies demonstrated in url-wrapper:
 
 # Deployment
 ## Docker
-The easiest way to deploy url-wrapper is to have docker-compose installed and run the start script.
+The easiest way to deploy link-lockit is to have docker-compose installed and run the start script.
 ```bash
-git clone 'https://gitlab.com/xsiph/url-wrapper.git'
+git clone 'https://gitlab.com/xsiph/link-lockit.git'
 ```
 ```bash
 $ ./start.sh

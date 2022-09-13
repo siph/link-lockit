@@ -6,7 +6,7 @@ use axum::{
     Router,
 };
 use tower::ServiceBuilder;
-use url_wrapper::config::Config;
+use link_lockit::config::Config;
 use clap::Parser;
 use sea_orm::Database;
 use migration::{Migrator, MigratorTrait};
@@ -21,8 +21,8 @@ async fn main() -> anyhow::Result<()> {
         .expect("Database connection failed");
     Migrator::up(&conn, None).await.unwrap();
     let app = Router::new()
-        .merge(url_wrapper::http::api_router())
-        .merge(url_wrapper::doc::router())
+        .merge(link_lockit::http::api_router())
+        .merge(link_lockit::doc::router())
         .layer(
             ServiceBuilder::new()
                 .layer(Extension(conn))

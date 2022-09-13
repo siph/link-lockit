@@ -21,7 +21,7 @@ use utoipa_swagger_ui::Config;
     ),
     components(links_model),
     tags(
-        (name = "url-wrapper", description = "Wraps urls using external link locker service")
+        (name = "link-lockit", description = "Wraps urls using external link locker service")
         )
 )]
 pub struct ApiDoc;
